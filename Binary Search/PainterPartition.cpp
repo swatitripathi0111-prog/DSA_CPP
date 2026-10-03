@@ -1,32 +1,35 @@
 #include<iostream>
 #include<vector>
+#include<climits>
 using namespace std;
-bool isValid(vector<int> &arr,int n,int m,int maxAllowedLength){
-      int Painters = 1,length=0;
+bool isValid(vector<int> &arr,int n,int m,int maxAllowedTime){
+      int Painters = 1,time=0;
+
       for(int i=0;i<n;i++){
-        if(arr[i] > maxAllowedLength){
-          return false;
+        if(arr[i] >= maxAllowedTime){
+            return false;
         }
-        if(length + arr[i] <= maxAllowedLength){
-            length += arr[i];
+        if(time + arr[i] <= maxAllowedTime){
+            time += arr[i];
         }else{
             Painters++;
-            length = arr[i];
+            time = arr[i];
         }
       }
       return Painters > m ? false : true;
     }
 	int PainterPartition(vector<int>& arr, int k) {
-        int n = arr.size();
+    int n = arr.size();
      if(k > n){
         return -1;
      }
-     int sum = 0;
+     int sum = 0,MaxVal=INT_MIN;
      for(int i=0;i<n;i++){
         sum += arr[i];
+        MaxVal = max(MaxVal,arr[i]);
      }
      int ans = -1;
-     int st = 0;
+     int st = MaxVal;
      int end = sum;
 
      while(st <= end){
@@ -40,9 +43,8 @@ bool isValid(vector<int> &arr,int n,int m,int maxAllowedLength){
      }
      return ans;
     }
-
 int main(){
-vector<int> arr = {2,1,4,3};
+vector<int> arr = {40,30,10,20};
 int n = arr.size();
 int m = 2;
 cout<<"Minimum possible answer = "<<PainterPartition(arr,m)<<endl;
